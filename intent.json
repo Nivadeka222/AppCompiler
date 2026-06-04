@@ -1,0 +1,118 @@
+{
+  "app_name": "Hospital Management System",
+  "app_type": "Healthcare Management",
+  "entities": [
+    {
+      "name": "Doctor",
+      "description": "Medical professional",
+      "attributes": [
+        "name",
+        "specialty",
+        "schedule"
+      ]
+    },
+    {
+      "name": "Patient",
+      "description": "Individual receiving medical care",
+      "attributes": [
+        "name",
+        "medical history",
+        "contact info"
+      ]
+    },
+    {
+      "name": "Appointment",
+      "description": "Scheduled meeting between doctor and patient",
+      "attributes": [
+        "date",
+        "time",
+        "doctor",
+        "patient"
+      ]
+    },
+    {
+      "name": "Bill",
+      "description": "Payment request for medical services",
+      "attributes": [
+        "amount",
+        "date",
+        "patient",
+        "appointment"
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "name": "Admin",
+      "permissions": [
+        "manage doctors",
+        "manage patients",
+        "view appointments",
+        "view billing"
+      ]
+    },
+    {
+      "name": "Doctor",
+      "permissions": [
+        "view appointments",
+        "view patient info",
+        "update appointment status"
+      ]
+    },
+    {
+      "name": "Patient",
+      "permissions": [
+        "view appointments",
+        "view billing",
+        "update contact info"
+      ]
+    }
+  ],
+  "features": [
+    {
+      "name": "Appointment Scheduling",
+      "description": "Allow patients to schedule appointments with doctors",
+      "requires_auth": true,
+      "roles_allowed": [
+        "Patient",
+        "Doctor",
+        "Admin"
+      ]
+    },
+    {
+      "name": "Billing Management",
+      "description": "Manage payment requests for medical services",
+      "requires_auth": true,
+      "roles_allowed": [
+        "Admin",
+        "Doctor"
+      ]
+    },
+    {
+      "name": "Patient Profile Management",
+      "description": "Allow patients to update their contact info and medical history",
+      "requires_auth": true,
+      "roles_allowed": [
+        "Patient",
+        "Admin",
+        "Doctor"
+      ]
+    },
+    {
+      "name": "Doctor Profile Management",
+      "description": "Allow doctors to update their schedule and specialty",
+      "requires_auth": true,
+      "roles_allowed": [
+        "Doctor",
+        "Admin"
+      ]
+    }
+  ],
+  "integrations": [
+    "Payment Gateway"
+  ],
+  "assumptions": [
+    "Doctors have unique schedules",
+    "Patients have unique medical histories"
+  ]
+}

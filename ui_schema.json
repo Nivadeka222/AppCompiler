@@ -1,0 +1,133 @@
+{
+  "pages": [
+    {
+      "name": "LoginPage",
+      "path": "/login",
+      "roles_allowed": [],
+      "components": [],
+      "layout": "default"
+    },
+    {
+      "name": "AppointmentPage",
+      "path": "/appointments",
+      "roles_allowed": [],
+      "components": [],
+      "layout": "default"
+    },
+    {
+      "name": "PatientProfilePage",
+      "path": "/patient-profile",
+      "roles_allowed": [],
+      "components": [],
+      "layout": "default"
+    },
+    {
+      "name": "BillingPage",
+      "path": "/billing",
+      "roles_allowed": [],
+      "components": [],
+      "layout": "default"
+    }
+  ],
+  "nav_items": [],
+  "entities": [
+    {
+      "name": "Doctor",
+      "description": "Medical professional",
+      "attributes": [
+        "name",
+        "specialty",
+        "schedule"
+      ]
+    },
+    {
+      "name": "Patient",
+      "description": "Individual receiving medical care",
+      "attributes": [
+        "name",
+        "medical history",
+        "contact info"
+      ]
+    },
+    {
+      "name": "Appointment",
+      "description": "Scheduled meeting between doctor and patient",
+      "attributes": [
+        "date",
+        "time",
+        "doctor",
+        "patient"
+      ]
+    },
+    {
+      "name": "Bill",
+      "description": "Payment request for medical services",
+      "attributes": [
+        "amount",
+        "patient",
+        "appointment"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Doctor-Patient",
+      "description": "A doctor can have many patients",
+      "from_entity": "Doctor",
+      "to_entity": "Patient",
+      "type": "one_to_many"
+    },
+    {
+      "name": "Patient-Appointment",
+      "description": "A patient can have many appointments",
+      "from_entity": "Patient",
+      "to_entity": "Appointment",
+      "type": "one_to_many"
+    },
+    {
+      "name": "Doctor-Appointment",
+      "description": "A doctor can have many appointments",
+      "from_entity": "Doctor",
+      "to_entity": "Appointment",
+      "type": "one_to_many"
+    },
+    {
+      "name": "Appointment-Bill",
+      "description": "An appointment can have one bill",
+      "from_entity": "Appointment",
+      "to_entity": "Bill",
+      "type": "one_to_one"
+    }
+  ],
+  "flows": [
+    {
+      "name": "Patient Scheduling Flow",
+      "steps": [
+        "User opens LoginPage",
+        "User logs in as Patient",
+        "User navigates to AppointmentPage",
+        "User selects a doctor and schedule",
+        "User creates a new appointment"
+      ]
+    },
+    {
+      "name": "Doctor Viewing Flow",
+      "steps": [
+        "User opens LoginPage",
+        "User logs in as Doctor",
+        "User navigates to AppointmentPage",
+        "User views their scheduled appointments"
+      ]
+    },
+    {
+      "name": "Admin Billing Flow",
+      "steps": [
+        "User opens LoginPage",
+        "User logs in as Admin",
+        "User navigates to BillingPage",
+        "User views all bills",
+        "User updates a bill"
+      ]
+    }
+  ]
+}

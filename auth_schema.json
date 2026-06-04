@@ -1,0 +1,111 @@
+{
+  "strategy": "jwt",
+  "token_expiry_seconds": 86400,
+  "roles": [
+    {
+      "name": "Admin",
+      "permissions": [
+        {
+          "resource": "appointments",
+          "actions": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ]
+        },
+        {
+          "resource": "patients",
+          "actions": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ]
+        },
+        {
+          "resource": "bills",
+          "actions": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ]
+        },
+        {
+          "resource": "doctors",
+          "actions": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ]
+        }
+      ],
+      "can_access_pages": [
+        "/login",
+        "/appointments",
+        "/patient-profile",
+        "/billing"
+      ]
+    },
+    {
+      "name": "Doctor",
+      "permissions": [
+        {
+          "resource": "appointments",
+          "actions": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "resource": "patients",
+          "actions": [
+            "read"
+          ]
+        },
+        {
+          "resource": "bills",
+          "actions": [
+            "read"
+          ]
+        }
+      ],
+      "can_access_pages": [
+        "/login",
+        "/appointments",
+        "/patient-profile"
+      ]
+    },
+    {
+      "name": "Patient",
+      "permissions": [
+        {
+          "resource": "appointments",
+          "actions": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "resource": "patient-profile",
+          "actions": [
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "can_access_pages": [
+        "/login",
+        "/appointments",
+        "/patient-profile"
+      ]
+    }
+  ],
+  "public_routes": [
+    "/login",
+    "/register"
+  ]
+}
