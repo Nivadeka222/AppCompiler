@@ -4,7 +4,6 @@ from schemas.models import (
 )
 
 from prompts.api_schema import API_SCHEMA_PROMPT
-
 from utils.client import gemini
 from utils.json_utils import safe_parse
 
@@ -13,16 +12,17 @@ def generate_api_schema(
     design: SystemDesignOutput
 ) -> APISchema:
 
-    prompt = f"""
-{design.model_dump_json(indent=2)}
-"""
-
     response = gemini(
         model="unused",
         system=API_SCHEMA_PROMPT,
-        user=prompt,
+        user=design.model_dump_json(indent=2),
     )
+
+    print("\n" + "=" * 80)
+    print("RAW API SCHEMA OUTPUT")
+    print("=" * 80)
     print(response)
+    print("=" * 80 + "\n")
 
     data = safe_parse(response)
 
@@ -38,4 +38,6 @@ if __name__ == "__main__":
 
     api_schema = generate_api_schema(design)
 
+    print("\nVALIDATED API SCHEMA")
+    print("=" * 80)
     print(api_schema.model_dump_json(indent=2))

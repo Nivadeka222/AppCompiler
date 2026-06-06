@@ -1,78 +1,20 @@
 {
   "tables": [
     {
-      "name": "users",
+      "name": "fresh_of_the_day",
       "fields": [
         {
           "name": "id",
           "type": "integer",
           "required": true,
           "unique": true,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "name",
-          "type": "varchar(255)",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "email",
-          "type": "varchar(255)",
-          "required": true,
-          "unique": true,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "password",
-          "type": "varchar(255)",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        }
-      ],
-      "indexes": [
-        {
-          "columns": [
-            "email"
-          ],
-          "unique": true
-        }
-      ]
-    },
-    {
-      "name": "products",
-      "fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "unique": true,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "name",
-          "type": "varchar(255)",
-          "required": true,
-          "unique": false,
           "default": null,
           "references": null,
           "enum_values": null
         },
         {
           "name": "price",
-          "type": "decimal(10, 2)",
+          "type": "float",
           "required": true,
           "unique": false,
           "default": null,
@@ -82,7 +24,7 @@
         {
           "name": "description",
           "type": "text",
-          "required": false,
+          "required": true,
           "unique": false,
           "default": null,
           "references": null,
@@ -92,7 +34,7 @@
       "indexes": []
     },
     {
-      "name": "carts",
+      "name": "cart",
       "fields": [
         {
           "name": "id",
@@ -104,26 +46,127 @@
           "enum_values": null
         },
         {
-          "name": "user_id",
-          "type": "integer",
+          "name": "items",
+          "type": "json",
           "required": true,
           "unique": false,
           "default": null,
-          "references": "users(id)",
+          "references": null,
+          "enum_values": null
+        },
+        {
+          "name": "total",
+          "type": "float",
+          "required": true,
+          "unique": false,
+          "default": null,
+          "references": null,
           "enum_values": null
         }
       ],
-      "indexes": [
-        {
-          "columns": [
-            "user_id"
-          ],
-          "unique": true
-        }
-      ]
+      "indexes": []
     },
     {
-      "name": "cart_products",
+      "name": "offers",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "unique": true,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        },
+        {
+          "name": "discount",
+          "type": "float",
+          "required": true,
+          "unique": false,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        },
+        {
+          "name": "expiration",
+          "type": "datetime",
+          "required": true,
+          "unique": false,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "menu",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "unique": true,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "unique": false,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "required": true,
+          "unique": false,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "admin",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "unique": true,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        },
+        {
+          "name": "username",
+          "type": "string",
+          "required": true,
+          "unique": false,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "required": true,
+          "unique": false,
+          "default": null,
+          "references": null,
+          "enum_values": null
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "cart_items",
       "fields": [
         {
           "name": "id",
@@ -136,86 +179,27 @@
         },
         {
           "name": "cart_id",
-          "type": "integer",
+          "type": "foreign_key",
           "required": true,
           "unique": false,
           "default": null,
-          "references": "carts(id)",
+          "references": "cart.id",
           "enum_values": null
         },
         {
-          "name": "product_id",
-          "type": "integer",
+          "name": "fresh_of_the_day_id",
+          "type": "foreign_key",
           "required": true,
           "unique": false,
           "default": null,
-          "references": "products(id)",
-          "enum_values": null
-        },
-        {
-          "name": "quantity",
-          "type": "integer",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        }
-      ],
-      "indexes": [
-        {
-          "columns": [
-            "cart_id",
-            "product_id"
-          ],
-          "unique": true
-        }
-      ]
-    },
-    {
-      "name": "orders",
-      "fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "unique": true,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "user_id",
-          "type": "integer",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": "users(id)",
-          "enum_values": null
-        },
-        {
-          "name": "total",
-          "type": "decimal(10, 2)",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "status",
-          "type": "varchar(255)",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
+          "references": "fresh_of_the_day.id",
           "enum_values": null
         }
       ],
       "indexes": []
     },
     {
-      "name": "order_products",
+      "name": "offers_menu",
       "fields": [
         {
           "name": "id",
@@ -227,100 +211,25 @@
           "enum_values": null
         },
         {
-          "name": "order_id",
-          "type": "integer",
+          "name": "offer_id",
+          "type": "foreign_key",
           "required": true,
           "unique": false,
           "default": null,
-          "references": "orders(id)",
+          "references": "offers.id",
           "enum_values": null
         },
         {
-          "name": "product_id",
-          "type": "integer",
+          "name": "menu_id",
+          "type": "foreign_key",
           "required": true,
           "unique": false,
           "default": null,
-          "references": "products(id)",
-          "enum_values": null
-        },
-        {
-          "name": "quantity",
-          "type": "integer",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
+          "references": "menu.id",
           "enum_values": null
         }
       ],
-      "indexes": [
-        {
-          "columns": [
-            "order_id",
-            "product_id"
-          ],
-          "unique": true
-        }
-      ]
-    },
-    {
-      "name": "payments",
-      "fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "unique": true,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "order_id",
-          "type": "integer",
-          "required": true,
-          "unique": true,
-          "default": null,
-          "references": "orders(id)",
-          "enum_values": null
-        },
-        {
-          "name": "method",
-          "type": "varchar(255)",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "amount",
-          "type": "decimal(10, 2)",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        },
-        {
-          "name": "status",
-          "type": "varchar(255)",
-          "required": true,
-          "unique": false,
-          "default": null,
-          "references": null,
-          "enum_values": null
-        }
-      ],
-      "indexes": [
-        {
-          "columns": [
-            "order_id"
-          ],
-          "unique": true
-        }
-      ]
+      "indexes": []
     }
   ]
 }

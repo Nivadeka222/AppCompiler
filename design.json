@@ -1,107 +1,104 @@
 {
   "entities": [
     {
-      "name": "products",
-      "description": "items for sale",
+      "name": "Coffee",
+      "description": "Beverage",
       "attributes": [
-        "price",
-        "description",
-        "image"
+        "fresh",
+        "of the day"
       ]
     },
     {
-      "name": "carts",
-      "description": "temporary storage for products",
-      "attributes": [
-        "items",
-        "total"
-      ]
+      "name": "Cart",
+      "description": "Shopping cart",
+      "attributes": []
     },
     {
-      "name": "orders",
-      "description": "completed purchases",
-      "attributes": [
-        "date",
-        "total",
-        "status"
-      ]
+      "name": "Offers",
+      "description": "Discounts or promotions",
+      "attributes": []
     },
     {
-      "name": "payments",
-      "description": "financial transactions",
-      "attributes": [
-        "amount",
-        "method"
-      ]
+      "name": "Menu",
+      "description": "List of available items",
+      "attributes": []
     },
     {
-      "name": "admin dashboard",
-      "description": "control panel for administrators",
+      "name": "Admin",
+      "description": "User with administrative privileges",
       "attributes": [
-        "analytics",
-        "settings"
+        "access"
       ]
     }
   ],
   "relationships": [
     {
-      "name": "cart contains products",
-      "description": "many-to-many relationship between carts and products",
-      "from_entity": "carts",
-      "to_entity": "products",
-      "type": "many_to_many"
+      "name": "menu_item",
+      "description": "A menu item is a coffee",
+      "from_entity": "Menu",
+      "to_entity": "Coffee",
+      "type": "one_to_many"
     },
     {
-      "name": "order contains products",
-      "description": "many-to-many relationship between orders and products",
-      "from_entity": "orders",
-      "to_entity": "products",
-      "type": "many_to_many"
+      "name": "cart_item",
+      "description": "A cart item is a coffee",
+      "from_entity": "Cart",
+      "to_entity": "Coffee",
+      "type": "one_to_many"
     },
     {
-      "name": "payment is associated with order",
-      "description": "one-to-one relationship between payments and orders",
-      "from_entity": "payments",
-      "to_entity": "orders",
-      "type": "one_to_one"
+      "name": "offer_item",
+      "description": "An offer item is a coffee",
+      "from_entity": "Offers",
+      "to_entity": "Coffee",
+      "type": "one_to_many"
     },
     {
-      "name": "admin dashboard is used by admin",
-      "description": "one-to-one relationship between admin dashboard and admin",
-      "from_entity": "admin dashboard",
-      "to_entity": "admin",
+      "name": "admin_access",
+      "description": "An admin has access to the app",
+      "from_entity": "Admin",
+      "to_entity": "Coffee App",
       "type": "one_to_one"
     }
   ],
   "pages": [
     {
-      "name": "Product List Page",
-      "path": "/products",
-      "description": "display available products",
+      "name": "LoginPage",
+      "path": "/login",
+      "description": "Login page for users",
+      "access_roles": [
+        "user",
+        "admin"
+      ]
+    },
+    {
+      "name": "MenuPage",
+      "path": "/menu",
+      "description": "List of available coffee items",
       "access_roles": [
         "user"
       ]
     },
     {
-      "name": "Cart Page",
+      "name": "CartPage",
       "path": "/cart",
-      "description": "store products for later purchase",
+      "description": "Allow users to add and manage items",
       "access_roles": [
         "user"
       ]
     },
     {
-      "name": "Checkout Page",
-      "path": "/checkout",
-      "description": "complete purchase",
+      "name": "OffersPage",
+      "path": "/offers",
+      "description": "Display available discounts and promotions",
       "access_roles": [
         "user"
       ]
     },
     {
-      "name": "Admin Dashboard",
-      "path": "/admin/dashboard",
-      "description": "configure platform settings",
+      "name": "AdminPage",
+      "path": "/admin",
+      "description": "Allow admins to manage app settings",
       "access_roles": [
         "admin"
       ]
@@ -109,104 +106,70 @@
   ],
   "api_groups": [
     {
-      "name": "Product API",
-      "description": "manage products",
+      "name": "User API",
+      "description": "API for user interactions",
       "endpoints": [
         {
           "method": "GET",
-          "path": "/products",
-          "description": "display available products"
-        },
-        {
-          "method": "POST",
-          "path": "/products",
-          "description": "create new product"
-        }
-      ]
-    },
-    {
-      "name": "Cart API",
-      "description": "manage carts",
-      "endpoints": [
-        {
-          "method": "GET",
-          "path": "/cart",
-          "description": "display cart contents"
+          "path": "/menu",
+          "description": "Get list of available coffee items"
         },
         {
           "method": "POST",
           "path": "/cart",
-          "description": "add product to cart"
-        }
-      ]
-    },
-    {
-      "name": "Order API",
-      "description": "manage orders",
-      "endpoints": [
-        {
-          "method": "GET",
-          "path": "/orders",
-          "description": "display completed purchases"
+          "description": "Add item to cart"
         },
         {
-          "method": "POST",
-          "path": "/orders",
-          "description": "create new order"
-        }
-      ]
-    },
-    {
-      "name": "Payment API",
-      "description": "manage payments",
-      "endpoints": [
-        {
           "method": "GET",
-          "path": "/payments",
-          "description": "display financial transactions"
-        },
-        {
-          "method": "POST",
-          "path": "/payments",
-          "description": "create new payment"
+          "path": "/offers",
+          "description": "Get list of available discounts and promotions"
         }
       ]
     },
     {
       "name": "Admin API",
-      "description": "manage admin settings",
+      "description": "API for admin interactions",
       "endpoints": [
         {
           "method": "GET",
-          "path": "/admin/dashboard",
-          "description": "display admin dashboard"
+          "path": "/admin/settings",
+          "description": "Get app settings"
         },
         {
           "method": "POST",
-          "path": "/admin/dashboard",
-          "description": "update admin settings"
+          "path": "/admin/settings",
+          "description": "Update app settings"
         }
       ]
     }
   ],
   "flows": [
     {
-      "name": "User Checkout Flow",
+      "name": "User Login Flow",
       "steps": [
-        "User opens Product List Page",
-        "User selects product to purchase",
-        "User opens Cart Page",
-        "User reviews cart contents",
-        "User opens Checkout Page",
-        "User completes payment"
+        "User opens LoginPage",
+        "User enters username and password",
+        "User submits login form",
+        "System authenticates user",
+        "User is redirected to MenuPage"
       ]
     },
     {
-      "name": "Admin Dashboard Flow",
+      "name": "User Menu Flow",
       "steps": [
-        "Admin opens Admin Dashboard",
-        "Admin views analytics",
-        "Admin manages settings"
+        "User opens MenuPage",
+        "User selects coffee item",
+        "System adds coffee item to cart",
+        "User is redirected to CartPage"
+      ]
+    },
+    {
+      "name": "Admin Settings Flow",
+      "steps": [
+        "Admin opens AdminPage",
+        "Admin navigates to settings page",
+        "Admin updates app settings",
+        "System saves updated settings"
       ]
     }
   ]

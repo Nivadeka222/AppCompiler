@@ -7,7 +7,6 @@ class FieldType(str, Enum):
     string = "string"
     integer = "integer"
     float_ = "float"
-    number = "number"
     boolean = "boolean"
     datetime = "datetime"
     enum = "enum"
@@ -165,11 +164,13 @@ class DBSchema(BaseModel):
     tables: list[DBTable]
 
 
+from typing import Optional
+
 class APIField(BaseModel):
     name: str
     type: FieldType
     required: bool = True
-    source: str
+    source: Optional[str] = None
 
     @field_validator("type", mode="before")
     @classmethod

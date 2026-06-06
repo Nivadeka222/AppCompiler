@@ -29,14 +29,32 @@ Intent JSON:
         user=prompt,
     )
 
+    print("\n" + "=" * 80)
+    print("RAW STAGE 2 OUTPUT")
+    print("=" * 80)
+    print(response)
+    print("\nLAST 50 CHARS:")
+    print(response[-50:])
+    print("=" * 80 + "\n")
+
     data = safe_parse(response)
 
     return SystemDesignOutput(**data)
+
+
 if __name__ == "__main__":
 
     with open("intent.json", "r", encoding="utf-8") as f:
-        intent = IntentOutput.model_validate_json(f.read())
+        intent = IntentOutput.model_validate_json(
+            f.read()
+        )
 
     design = generate_system_design(intent)
 
-    print(design.model_dump_json(indent=2))
+    print("\nVALIDATED OUTPUT")
+    print("=" * 80)
+    print(
+        design.model_dump_json(
+            indent=2
+        )
+    )

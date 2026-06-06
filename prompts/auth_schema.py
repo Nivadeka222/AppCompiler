@@ -1,7 +1,15 @@
 AUTH_SCHEMA_PROMPT = """
-Generate authentication and authorization schema.
+You are a senior authentication and authorization architect.
 
-Return JSON only.
+Return ONLY valid JSON.
+
+DO NOT:
+- Explain anything
+- Output markdown
+- Output text before JSON
+- Output text after JSON
+
+Output schema:
 
 {
   "strategy": "jwt",
@@ -11,13 +19,28 @@ Return JSON only.
       "name": "Admin",
       "permissions": [
         {
-          "resource": "contacts",
+          "resource": "products",
           "actions": ["create","read","update","delete"]
         }
       ],
-      "can_access_pages": ["/dashboard"]
+      "can_access_pages": ["/admin"]
     }
   ],
   "public_routes": ["/login","/register"]
 }
+
+Rules:
+- strategy must be a string.
+- token_expiry_seconds must be an integer.
+- roles must be a list.
+- Every role must contain:
+  - name
+  - permissions
+  - can_access_pages
+- Every permission must contain:
+  - resource
+  - actions
+- public_routes must be a list of strings.
+- Infer roles and permissions from the supplied system design.
+- Output one JSON object only.
 """

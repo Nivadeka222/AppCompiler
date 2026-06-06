@@ -45,45 +45,63 @@ def extract_intent(user_prompt: str) -> tuple[IntentOutput, StageMetric]:
     raw = ""
 
     with Timer() as t:
-        # ── First attempt via Gemini ──────────────────
         try:
             raw = gemini(
                 model=GEMINI_FLASH,
                 system=SYSTEM_PROMPT,
                 user=f"Extract intent from:\n\n{user_prompt}"
             )
+
             data = safe_parse(raw)
             result = IntentOutput(**data)
 
-        except (ValueError, ValidationError, Exception) as e:
-            # ── Repair via Groq (fast) ────────────────
+        except (ValueError, ValidationError) as e:
+
             retries = 1
             print(f"  [Stage 1] repair triggered: {e}")
-            repair_user = f"""Error: {e}
+
+            repair_user = f"""
+Original prompt:
+{user_prompt}
 
 Broken output:
-{raw}
+{raw[:1000]}
 
-Original prompt: {user_prompt}
+Fix and return valid JSON only.
+"""
 
-Fix and return valid JSON only."""
             try:
-                raw = groq_call(system=REPAIR_SYSTEM, user=repair_user)
+                raw = groq_call(
+                    system=REPAIR_SYSTEM,
+                    user=repair_user
+                )
+
                 data = safe_parse(raw)
                 result = IntentOutput(**data)
+
             except Exception as e2:
+
                 metric = StageMetric(
-                    stage="intent", model=GEMINI_FLASH,
-                    success=False, retries=retries,
-                    latency_ms=t.elapsed_ms, error=str(e2)
+                    stage="intent",
+                    model=GEMINI_FLASH,
+                    success=False,
+                    retries=retries,
+                    latency_ms=t.elapsed_ms,
+                    error=str(e2)
                 )
-                raise ValueError(f"Stage 1 failed after repair: {e2}") from e2
+
+                raise ValueError(
+                    f"Stage 1 failed after repair: {e2}"
+                ) from e2
 
     metric = StageMetric(
-        stage="intent", model=GEMINI_FLASH,
-        success=True, retries=retries,
+        stage="intent",
+        model=GEMINI_FLASH,
+        success=True,
+        retries=retries,
         latency_ms=t.elapsed_ms
     )
+
     return result, metric
 
 

@@ -6,34 +6,7 @@
       "name": "Admin",
       "permissions": [
         {
-          "resource": "appointments",
-          "actions": [
-            "create",
-            "read",
-            "update",
-            "delete"
-          ]
-        },
-        {
-          "resource": "patients",
-          "actions": [
-            "create",
-            "read",
-            "update",
-            "delete"
-          ]
-        },
-        {
-          "resource": "bills",
-          "actions": [
-            "create",
-            "read",
-            "update",
-            "delete"
-          ]
-        },
-        {
-          "resource": "doctors",
+          "resource": "*",
           "actions": [
             "create",
             "read",
@@ -43,64 +16,24 @@
         }
       ],
       "can_access_pages": [
-        "/login",
-        "/appointments",
-        "/patient-profile",
-        "/billing"
+        "/admin"
       ]
     },
     {
-      "name": "Doctor",
+      "name": "User",
       "permissions": [
         {
-          "resource": "appointments",
-          "actions": [
-            "read",
-            "update"
-          ]
-        },
-        {
-          "resource": "patients",
-          "actions": [
-            "read"
-          ]
-        },
-        {
-          "resource": "bills",
+          "resource": "*",
           "actions": [
             "read"
           ]
         }
       ],
       "can_access_pages": [
-        "/login",
-        "/appointments",
-        "/patient-profile"
-      ]
-    },
-    {
-      "name": "Patient",
-      "permissions": [
-        {
-          "resource": "appointments",
-          "actions": [
-            "create",
-            "read",
-            "update"
-          ]
-        },
-        {
-          "resource": "patient-profile",
-          "actions": [
-            "read",
-            "update"
-          ]
-        }
-      ],
-      "can_access_pages": [
-        "/login",
-        "/appointments",
-        "/patient-profile"
+        "/fresh-of-the-day",
+        "/cart",
+        "/offers",
+        "/menu"
       ]
     }
   ],

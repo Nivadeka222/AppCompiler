@@ -1,118 +1,99 @@
 {
-  "app_name": "Hospital Management System",
-  "app_type": "Healthcare Management",
+  "app_name": "Coffee App",
+  "app_type": "E-commerce",
   "entities": [
     {
-      "name": "Doctor",
-      "description": "Medical professional",
+      "name": "Coffee",
+      "description": "Beverage",
       "attributes": [
-        "name",
-        "specialty",
-        "schedule"
+        "fresh",
+        "of the day"
       ]
     },
     {
-      "name": "Patient",
-      "description": "Individual receiving medical care",
-      "attributes": [
-        "name",
-        "medical history",
-        "contact info"
-      ]
+      "name": "Cart",
+      "description": "Shopping cart",
+      "attributes": []
     },
     {
-      "name": "Appointment",
-      "description": "Scheduled meeting between doctor and patient",
-      "attributes": [
-        "date",
-        "time",
-        "doctor",
-        "patient"
-      ]
+      "name": "Offers",
+      "description": "Discounts or promotions",
+      "attributes": []
     },
     {
-      "name": "Bill",
-      "description": "Payment request for medical services",
+      "name": "Menu",
+      "description": "List of available items",
+      "attributes": []
+    },
+    {
+      "name": "Admin",
+      "description": "User with administrative privileges",
       "attributes": [
-        "amount",
-        "date",
-        "patient",
-        "appointment"
+        "access"
       ]
     }
   ],
   "roles": [
     {
-      "name": "Admin",
+      "name": "admin",
       "permissions": [
-        "manage doctors",
-        "manage patients",
-        "view appointments",
-        "view billing"
+        "access analytics",
+        "manage app"
       ]
     },
     {
-      "name": "Doctor",
+      "name": "user",
       "permissions": [
-        "view appointments",
-        "view patient info",
-        "update appointment status"
-      ]
-    },
-    {
-      "name": "Patient",
-      "permissions": [
-        "view appointments",
-        "view billing",
-        "update contact info"
+        "view menu",
+        "add to cart",
+        "apply offers"
       ]
     }
   ],
   "features": [
     {
-      "name": "Appointment Scheduling",
-      "description": "Allow patients to schedule appointments with doctors",
-      "requires_auth": true,
+      "name": "Fresh of the day",
+      "description": "Display daily fresh coffee selection",
+      "requires_auth": false,
       "roles_allowed": [
-        "Patient",
-        "Doctor",
-        "Admin"
+        "user"
       ]
     },
     {
-      "name": "Billing Management",
-      "description": "Manage payment requests for medical services",
-      "requires_auth": true,
+      "name": "Cart",
+      "description": "Allow users to add and manage items",
+      "requires_auth": false,
       "roles_allowed": [
-        "Admin",
-        "Doctor"
+        "user"
       ]
     },
     {
-      "name": "Patient Profile Management",
-      "description": "Allow patients to update their contact info and medical history",
-      "requires_auth": true,
+      "name": "Offers",
+      "description": "Display available discounts and promotions",
+      "requires_auth": false,
       "roles_allowed": [
-        "Patient",
-        "Admin",
-        "Doctor"
+        "user"
       ]
     },
     {
-      "name": "Doctor Profile Management",
-      "description": "Allow doctors to update their schedule and specialty",
+      "name": "Menu",
+      "description": "List available coffee items",
+      "requires_auth": false,
+      "roles_allowed": [
+        "user"
+      ]
+    },
+    {
+      "name": "Admin access",
+      "description": "Allow admins to manage app settings",
       "requires_auth": true,
       "roles_allowed": [
-        "Doctor",
-        "Admin"
+        "admin"
       ]
     }
   ],
-  "integrations": [
-    "Payment Gateway"
-  ],
+  "integrations": [],
   "assumptions": [
-    "Doctors have unique schedules",
-    "Patients have unique medical histories"
+    "Admin access is required for managing app settings"
   ]
 }

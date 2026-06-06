@@ -1,336 +1,282 @@
 {
   "intent": {
-    "app_name": "Hospital Management System",
-    "app_type": "Healthcare Management",
+    "app_name": "Coffee App",
+    "app_type": "E-commerce",
     "entities": [
       {
-        "name": "Doctor",
-        "description": "Medical professional",
+        "name": "Fresh of the Day",
+        "description": "daily coffee selection",
+        "attributes": [
+          "price",
+          "description"
+        ]
+      },
+      {
+        "name": "Cart",
+        "description": "user's shopping cart",
+        "attributes": [
+          "items",
+          "total"
+        ]
+      },
+      {
+        "name": "Offers",
+        "description": "discounts and promotions",
+        "attributes": [
+          "discount",
+          "expiration"
+        ]
+      },
+      {
+        "name": "Menu",
+        "description": "list of available coffee products",
         "attributes": [
           "name",
-          "specialty",
-          "schedule"
+          "price"
         ]
       },
       {
-        "name": "Patient",
-        "description": "Individual receiving medical care",
+        "name": "Admin",
+        "description": "application administrator",
         "attributes": [
-          "name",
-          "medical history",
-          "contact info"
-        ]
-      },
-      {
-        "name": "Appointment",
-        "description": "Scheduled meeting between doctor and patient",
-        "attributes": [
-          "date",
-          "time",
-          "doctor",
-          "patient"
-        ]
-      },
-      {
-        "name": "Bill",
-        "description": "Payment request for medical services",
-        "attributes": [
-          "amount",
-          "patient",
-          "appointment"
+          "username",
+          "password"
         ]
       }
     ],
     "roles": [
       {
-        "name": "Admin",
+        "name": "admin",
         "permissions": [
-          "manage doctors",
-          "manage patients",
-          "view appointments",
-          "view billing"
+          "access analytics",
+          "manage offers",
+          "view user data"
         ]
       },
       {
-        "name": "Doctor",
+        "name": "user",
         "permissions": [
-          "view appointments",
-          "view patient info",
-          "create bills"
-        ]
-      },
-      {
-        "name": "Patient",
-        "permissions": [
-          "view appointments",
-          "view bills"
+          "view menu",
+          "add to cart",
+          "apply offers"
         ]
       }
     ],
     "features": [
       {
-        "name": "Appointment Scheduling",
-        "description": "Allow patients to schedule appointments with doctors",
-        "requires_auth": true,
+        "name": "Fresh of the Day",
+        "description": "display daily coffee selection",
+        "requires_auth": false,
         "roles_allowed": [
-          "Patient",
-          "Doctor",
-          "Admin"
+          "user"
         ]
       },
       {
-        "name": "Billing Management",
-        "description": "Manage payment requests for medical services",
+        "name": "Cart",
+        "description": "manage user's shopping cart",
         "requires_auth": true,
         "roles_allowed": [
-          "Admin",
-          "Doctor"
+          "user"
         ]
       },
       {
-        "name": "Patient Profile Management",
-        "description": "Manage patient information",
+        "name": "Offers",
+        "description": "display and apply discounts",
+        "requires_auth": false,
+        "roles_allowed": [
+          "user"
+        ]
+      },
+      {
+        "name": "Menu",
+        "description": "display list of available coffee products",
+        "requires_auth": false,
+        "roles_allowed": [
+          "user"
+        ]
+      },
+      {
+        "name": "Admin Access",
+        "description": "grant admin privileges",
         "requires_auth": true,
         "roles_allowed": [
-          "Patient",
-          "Doctor",
-          "Admin"
+          "admin"
         ]
       }
     ],
-    "integrations": [
-      "Payment Gateway"
-    ],
+    "integrations": [],
     "assumptions": [
-      "Doctors and patients will have unique identifiers",
-      "Appointments will have a status (e.g. scheduled, completed, cancelled)"
+      "admin access is required for managing offers and user data"
     ]
   },
   "system_design": {
     "entities": [
       {
-        "name": "Doctor",
-        "description": "Medical professional",
+        "name": "Fresh of the Day",
+        "description": "daily coffee selection",
+        "attributes": [
+          "price",
+          "description"
+        ]
+      },
+      {
+        "name": "Cart",
+        "description": "user's shopping cart",
+        "attributes": [
+          "items",
+          "total"
+        ]
+      },
+      {
+        "name": "Offers",
+        "description": "discounts and promotions",
+        "attributes": [
+          "discount",
+          "expiration"
+        ]
+      },
+      {
+        "name": "Menu",
+        "description": "list of available coffee products",
         "attributes": [
           "name",
-          "specialty",
-          "schedule"
+          "price"
         ]
       },
       {
-        "name": "Patient",
-        "description": "Individual receiving medical care",
+        "name": "Admin",
+        "description": "application administrator",
         "attributes": [
-          "name",
-          "medical history",
-          "contact info"
-        ]
-      },
-      {
-        "name": "Appointment",
-        "description": "Scheduled meeting between doctor and patient",
-        "attributes": [
-          "date",
-          "time",
-          "doctor",
-          "patient"
-        ]
-      },
-      {
-        "name": "Bill",
-        "description": "Payment request for medical services",
-        "attributes": [
-          "amount",
-          "patient",
-          "appointment"
+          "username",
+          "password"
         ]
       }
     ],
     "relationships": [
       {
-        "name": "Doctor-Patient",
-        "description": "A doctor can have many patients",
-        "from_entity": "Doctor",
-        "to_entity": "Patient",
+        "name": "contains",
+        "description": "a cart contains items",
+        "from_entity": "Cart",
+        "to_entity": "Fresh of the Day",
         "type": "one_to_many"
       },
       {
-        "name": "Patient-Appointment",
-        "description": "A patient can have many appointments",
-        "from_entity": "Patient",
-        "to_entity": "Appointment",
-        "type": "one_to_many"
+        "name": "applies",
+        "description": "an offer applies to a menu item",
+        "from_entity": "Offers",
+        "to_entity": "Menu",
+        "type": "many_to_many"
       },
       {
-        "name": "Doctor-Appointment",
-        "description": "A doctor can have many appointments",
-        "from_entity": "Doctor",
-        "to_entity": "Appointment",
-        "type": "one_to_many"
-      },
-      {
-        "name": "Appointment-Bill",
-        "description": "An appointment can have one bill",
-        "from_entity": "Appointment",
-        "to_entity": "Bill",
+        "name": "managed_by",
+        "description": "an admin manages offers and user data",
+        "from_entity": "Admin",
+        "to_entity": "Offers",
         "type": "one_to_one"
       }
     ],
     "pages": [
       {
-        "name": "LoginPage",
-        "path": "/login",
-        "description": "Login page for users",
+        "name": "Fresh of the Day",
+        "path": "/fresh-of-the-day",
+        "description": "display daily coffee selection",
         "access_roles": [
-          "Admin",
-          "Doctor",
-          "Patient"
+          "user"
         ]
       },
       {
-        "name": "AppointmentPage",
-        "path": "/appointments",
-        "description": "Page for viewing and scheduling appointments",
+        "name": "Cart",
+        "path": "/cart",
+        "description": "manage user's shopping cart",
         "access_roles": [
-          "Admin",
-          "Doctor",
-          "Patient"
+          "user"
         ]
       },
       {
-        "name": "PatientProfilePage",
-        "path": "/patient-profile",
-        "description": "Page for viewing and editing patient information",
+        "name": "Offers",
+        "path": "/offers",
+        "description": "display and apply discounts",
         "access_roles": [
-          "Admin",
-          "Doctor",
-          "Patient"
+          "user"
         ]
       },
       {
-        "name": "BillingPage",
-        "path": "/billing",
-        "description": "Page for viewing and managing bills",
+        "name": "Menu",
+        "path": "/menu",
+        "description": "display list of available coffee products",
         "access_roles": [
-          "Admin",
-          "Doctor"
+          "user"
+        ]
+      },
+      {
+        "name": "Admin Dashboard",
+        "path": "/admin",
+        "description": "grant admin privileges",
+        "access_roles": [
+          "admin"
         ]
       }
     ],
     "api_groups": [
       {
-        "name": "Authentication",
-        "description": "Endpoints for user authentication",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/login",
-            "description": "Login endpoint"
-          },
-          {
-            "method": "POST",
-            "path": "/register",
-            "description": "Registration endpoint"
-          }
-        ]
-      },
-      {
-        "name": "Appointment Management",
-        "description": "Endpoints for managing appointments",
+        "name": "Coffee App API",
+        "description": "Coffee App API endpoints",
         "endpoints": [
           {
             "method": "GET",
-            "path": "/appointments",
-            "description": "Get all appointments"
+            "path": "/fresh-of-the-day",
+            "description": "display daily coffee selection"
           },
           {
             "method": "POST",
-            "path": "/appointments",
-            "description": "Create a new appointment"
+            "path": "/cart",
+            "description": "add item to cart"
+          },
+          {
+            "method": "GET",
+            "path": "/offers",
+            "description": "display available discounts"
           },
           {
             "method": "PUT",
-            "path": "/appointments/{id}",
-            "description": "Update an appointment"
+            "path": "/offers",
+            "description": "apply discount"
           },
           {
-            "method": "DELETE",
-            "path": "/appointments/{id}",
-            "description": "Delete an appointment"
-          }
-        ]
-      },
-      {
-        "name": "Patient Profile Management",
-        "description": "Endpoints for managing patient information",
-        "endpoints": [
-          {
             "method": "GET",
-            "path": "/patient-profile",
-            "description": "Get patient information"
-          },
-          {
-            "method": "PUT",
-            "path": "/patient-profile",
-            "description": "Update patient information"
-          }
-        ]
-      },
-      {
-        "name": "Billing Management",
-        "description": "Endpoints for managing bills",
-        "endpoints": [
-          {
-            "method": "GET",
-            "path": "/billing",
-            "description": "Get all bills"
+            "path": "/menu",
+            "description": "display list of available coffee products"
           },
           {
             "method": "POST",
-            "path": "/billing",
-            "description": "Create a new bill"
+            "path": "/admin/login",
+            "description": "login as admin"
           },
           {
-            "method": "PUT",
-            "path": "/billing/{id}",
-            "description": "Update a bill"
-          },
-          {
-            "method": "DELETE",
-            "path": "/billing/{id}",
-            "description": "Delete a bill"
+            "method": "GET",
+            "path": "/admin/offers",
+            "description": "display offers managed by admin"
           }
         ]
       }
     ],
     "flows": [
       {
-        "name": "Patient Scheduling Flow",
+        "name": "User Flow",
         "steps": [
-          "User opens LoginPage",
-          "User logs in as Patient",
-          "User navigates to AppointmentPage",
-          "User selects a doctor and schedule",
-          "User creates a new appointment"
+          "User opens Menu page",
+          "User selects item to add to cart",
+          "User opens Cart page",
+          "User applies offer",
+          "User views total"
         ]
       },
       {
-        "name": "Doctor Viewing Flow",
+        "name": "Admin Flow",
         "steps": [
-          "User opens LoginPage",
-          "User logs in as Doctor",
-          "User navigates to AppointmentPage",
-          "User views their scheduled appointments"
-        ]
-      },
-      {
-        "name": "Admin Billing Flow",
-        "steps": [
-          "User opens LoginPage",
-          "User logs in as Admin",
-          "User navigates to BillingPage",
-          "User views all bills",
-          "User updates a bill"
+          "Admin logs in",
+          "Admin views offers",
+          "Admin manages offers"
         ]
       }
     ]
@@ -338,7 +284,106 @@
   "db_schema": {
     "tables": [
       {
-        "name": "doctors",
+        "name": "fresh_of_the_day",
+        "fields": [
+          {
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "unique": true,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          },
+          {
+            "name": "price",
+            "type": "float",
+            "required": true,
+            "unique": false,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "required": true,
+            "unique": false,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          }
+        ],
+        "indexes": []
+      },
+      {
+        "name": "cart",
+        "fields": [
+          {
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "unique": true,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          },
+          {
+            "name": "items",
+            "type": "json",
+            "required": true,
+            "unique": false,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          },
+          {
+            "name": "total",
+            "type": "float",
+            "required": true,
+            "unique": false,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          }
+        ],
+        "indexes": []
+      },
+      {
+        "name": "offers",
+        "fields": [
+          {
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "unique": true,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          },
+          {
+            "name": "discount",
+            "type": "float",
+            "required": true,
+            "unique": false,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          },
+          {
+            "name": "expiration",
+            "type": "datetime",
+            "required": true,
+            "unique": false,
+            "default": null,
+            "references": null,
+            "enum_values": null
+          }
+        ],
+        "indexes": []
+      },
+      {
+        "name": "menu",
         "fields": [
           {
             "name": "id",
@@ -351,7 +396,7 @@
           },
           {
             "name": "name",
-            "type": "varchar(255)",
+            "type": "string",
             "required": true,
             "unique": false,
             "default": null,
@@ -359,17 +404,8 @@
             "enum_values": null
           },
           {
-            "name": "specialty",
-            "type": "varchar(255)",
-            "required": true,
-            "unique": false,
-            "default": null,
-            "references": null,
-            "enum_values": null
-          },
-          {
-            "name": "schedule",
-            "type": "text",
+            "name": "price",
+            "type": "float",
             "required": true,
             "unique": false,
             "default": null,
@@ -377,17 +413,10 @@
             "enum_values": null
           }
         ],
-        "indexes": [
-          {
-            "columns": [
-              "id"
-            ],
-            "unique": true
-          }
-        ]
+        "indexes": []
       },
       {
-        "name": "patients",
+        "name": "admin",
         "fields": [
           {
             "name": "id",
@@ -399,8 +428,8 @@
             "enum_values": null
           },
           {
-            "name": "name",
-            "type": "varchar(255)",
+            "name": "username",
+            "type": "string",
             "required": true,
             "unique": false,
             "default": null,
@@ -408,17 +437,8 @@
             "enum_values": null
           },
           {
-            "name": "medical_history",
-            "type": "text",
-            "required": true,
-            "unique": false,
-            "default": null,
-            "references": null,
-            "enum_values": null
-          },
-          {
-            "name": "contact_info",
-            "type": "varchar(255)",
+            "name": "password",
+            "type": "string",
             "required": true,
             "unique": false,
             "default": null,
@@ -426,17 +446,10 @@
             "enum_values": null
           }
         ],
-        "indexes": [
-          {
-            "columns": [
-              "id"
-            ],
-            "unique": true
-          }
-        ]
+        "indexes": []
       },
       {
-        "name": "appointments",
+        "name": "cart_items",
         "fields": [
           {
             "name": "id",
@@ -448,71 +461,28 @@
             "enum_values": null
           },
           {
-            "name": "date",
-            "type": "date",
+            "name": "cart_id",
+            "type": "foreign_key",
             "required": true,
             "unique": false,
             "default": null,
-            "references": null,
+            "references": "cart.id",
             "enum_values": null
           },
           {
-            "name": "time",
-            "type": "time",
+            "name": "fresh_of_the_day_id",
+            "type": "foreign_key",
             "required": true,
             "unique": false,
             "default": null,
-            "references": null,
-            "enum_values": null
-          },
-          {
-            "name": "doctor_id",
-            "type": "integer",
-            "required": true,
-            "unique": false,
-            "default": null,
-            "references": {
-              "table": "doctors",
-              "column": "id"
-            },
-            "enum_values": null
-          },
-          {
-            "name": "patient_id",
-            "type": "integer",
-            "required": true,
-            "unique": false,
-            "default": null,
-            "references": {
-              "table": "patients",
-              "column": "id"
-            },
+            "references": "fresh_of_the_day.id",
             "enum_values": null
           }
         ],
-        "indexes": [
-          {
-            "columns": [
-              "id"
-            ],
-            "unique": true
-          },
-          {
-            "columns": [
-              "doctor_id"
-            ],
-            "unique": false
-          },
-          {
-            "columns": [
-              "patient_id"
-            ],
-            "unique": false
-          }
-        ]
+        "indexes": []
       },
       {
-        "name": "bills",
+        "name": "offers_menu",
         "fields": [
           {
             "name": "id",
@@ -524,59 +494,25 @@
             "enum_values": null
           },
           {
-            "name": "amount",
-            "type": "decimal(10, 2)",
+            "name": "offer_id",
+            "type": "foreign_key",
             "required": true,
             "unique": false,
             "default": null,
-            "references": null,
+            "references": "offers.id",
             "enum_values": null
           },
           {
-            "name": "patient_id",
-            "type": "integer",
+            "name": "menu_id",
+            "type": "foreign_key",
             "required": true,
             "unique": false,
             "default": null,
-            "references": {
-              "table": "patients",
-              "column": "id"
-            },
-            "enum_values": null
-          },
-          {
-            "name": "appointment_id",
-            "type": "integer",
-            "required": true,
-            "unique": true,
-            "default": null,
-            "references": {
-              "table": "appointments",
-              "column": "id"
-            },
+            "references": "menu.id",
             "enum_values": null
           }
         ],
-        "indexes": [
-          {
-            "columns": [
-              "id"
-            ],
-            "unique": true
-          },
-          {
-            "columns": [
-              "patient_id"
-            ],
-            "unique": false
-          },
-          {
-            "columns": [
-              "appointment_id"
-            ],
-            "unique": true
-          }
-        ]
+        "indexes": []
       }
     ]
   },
@@ -584,82 +520,104 @@
     "base_path": "/api/v1",
     "endpoints": [
       {
-        "path": "/appointments",
+        "path": "/fresh-of-the-day",
         "method": "GET",
-        "summary": "Get all appointments",
+        "summary": "Get daily coffee selection",
         "roles_allowed": [
-          "Admin",
-          "Doctor",
-          "Patient"
+          "user"
         ],
-        "request_fields": [],
+        "request_fields": [
+          {
+            "name": "limit",
+            "type": "integer",
+            "required": false,
+            "source": "query"
+          },
+          {
+            "name": "offset",
+            "type": "integer",
+            "required": false,
+            "source": "query"
+          }
+        ],
         "response_fields": [
           {
             "name": "id",
             "type": "integer",
             "required": true,
-            "source": "appointments.id"
+            "source": "table.id"
           },
           {
-            "name": "date",
-            "type": "string",
+            "name": "price",
+            "type": "float",
             "required": true,
-            "source": "appointments.date"
+            "source": "table.price"
           },
           {
-            "name": "time",
-            "type": "string",
+            "name": "description",
+            "type": "text",
             "required": true,
-            "source": "appointments.time"
-          },
-          {
-            "name": "doctor_id",
-            "type": "integer",
-            "required": true,
-            "source": "appointments.doctor_id"
-          },
-          {
-            "name": "patient_id",
-            "type": "integer",
-            "required": true,
-            "source": "appointments.patient_id"
+            "source": "table.description"
           }
         ],
-        "auth_required": true
+        "auth_required": false
       },
       {
-        "path": "/appointments",
+        "path": "/cart",
+        "method": "GET",
+        "summary": "Get user's shopping cart",
+        "roles_allowed": [
+          "user"
+        ],
+        "request_fields": [
+          {
+            "name": "limit",
+            "type": "integer",
+            "required": false,
+            "source": "query"
+          },
+          {
+            "name": "offset",
+            "type": "integer",
+            "required": false,
+            "source": "query"
+          }
+        ],
+        "response_fields": [
+          {
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "source": "table.id"
+          },
+          {
+            "name": "items",
+            "type": "array",
+            "required": true,
+            "source": "table.items"
+          },
+          {
+            "name": "total",
+            "type": "float",
+            "required": true,
+            "source": "table.total"
+          }
+        ],
+        "auth_required": false
+      },
+      {
+        "path": "/cart",
         "method": "POST",
-        "summary": "Create a new appointment",
+        "summary": "Add item to cart",
         "roles_allowed": [
-          "Admin",
-          "Doctor",
-          "Patient"
+          "user"
         ],
         "request_fields": [
           {
-            "name": "date",
-            "type": "string",
-            "required": true,
-            "source": "appointments.date"
-          },
-          {
-            "name": "time",
-            "type": "string",
-            "required": true,
-            "source": "appointments.time"
-          },
-          {
-            "name": "doctor_id",
+            "name": "item_id",
             "type": "integer",
             "required": true,
-            "source": "appointments.doctor_id"
-          },
-          {
-            "name": "patient_id",
-            "type": "integer",
-            "required": true,
-            "source": "appointments.patient_id"
+            "source": "body"
           }
         ],
         "response_fields": [
@@ -667,270 +625,128 @@
             "name": "id",
             "type": "integer",
             "required": true,
-            "source": "appointments.id"
+            "source": "table.id"
+          },
+          {
+            "name": "items",
+            "type": "array",
+            "required": true,
+            "source": "table.items"
+          },
+          {
+            "name": "total",
+            "type": "float",
+            "required": true,
+            "source": "table.total"
           }
         ],
-        "auth_required": true
+        "auth_required": false
       },
       {
-        "path": "/appointments/{id}",
-        "method": "PUT",
-        "summary": "Update an appointment",
-        "roles_allowed": [
-          "Admin",
-          "Doctor",
-          "Patient"
-        ],
-        "request_fields": [
-          {
-            "name": "date",
-            "type": "string",
-            "required": true,
-            "source": "appointments.date"
-          },
-          {
-            "name": "time",
-            "type": "string",
-            "required": true,
-            "source": "appointments.time"
-          },
-          {
-            "name": "doctor_id",
-            "type": "integer",
-            "required": true,
-            "source": "appointments.doctor_id"
-          },
-          {
-            "name": "patient_id",
-            "type": "integer",
-            "required": true,
-            "source": "appointments.patient_id"
-          }
-        ],
-        "response_fields": [],
-        "auth_required": true
-      },
-      {
-        "path": "/appointments/{id}",
-        "method": "DELETE",
-        "summary": "Delete an appointment",
-        "roles_allowed": [
-          "Admin",
-          "Doctor"
-        ],
-        "request_fields": [],
-        "response_fields": [],
-        "auth_required": true
-      },
-      {
-        "path": "/patient-profile",
+        "path": "/offers",
         "method": "GET",
-        "summary": "Get patient information",
+        "summary": "Get available discounts",
         "roles_allowed": [
-          "Admin",
-          "Doctor",
-          "Patient"
+          "user"
         ],
-        "request_fields": [],
+        "request_fields": [
+          {
+            "name": "limit",
+            "type": "integer",
+            "required": false,
+            "source": "query"
+          },
+          {
+            "name": "offset",
+            "type": "integer",
+            "required": false,
+            "source": "query"
+          }
+        ],
         "response_fields": [
           {
             "name": "id",
             "type": "integer",
             "required": true,
-            "source": "patients.id"
+            "source": "table.id"
+          },
+          {
+            "name": "discount",
+            "type": "float",
+            "required": true,
+            "source": "table.discount"
+          },
+          {
+            "name": "expiration",
+            "type": "datetime",
+            "required": true,
+            "source": "table.expiration"
+          }
+        ],
+        "auth_required": false
+      },
+      {
+        "path": "/menu",
+        "method": "GET",
+        "summary": "Get list of available coffee products",
+        "roles_allowed": [
+          "user"
+        ],
+        "request_fields": [
+          {
+            "name": "limit",
+            "type": "integer",
+            "required": false,
+            "source": "query"
+          },
+          {
+            "name": "offset",
+            "type": "integer",
+            "required": false,
+            "source": "query"
+          }
+        ],
+        "response_fields": [
+          {
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "source": "table.id"
           },
           {
             "name": "name",
-            "type": "string",
+            "type": "text",
             "required": true,
-            "source": "patients.name"
+            "source": "table.name"
           },
           {
-            "name": "medical_history",
-            "type": "string",
-            "required": true,
-            "source": "patients.medical_history"
-          },
-          {
-            "name": "contact_info",
-            "type": "string",
-            "required": true,
-            "source": "patients.contact_info"
-          }
-        ],
-        "auth_required": true
-      },
-      {
-        "path": "/patient-profile",
-        "method": "PUT",
-        "summary": "Update patient information",
-        "roles_allowed": [
-          "Admin",
-          "Doctor",
-          "Patient"
-        ],
-        "request_fields": [
-          {
-            "name": "name",
-            "type": "string",
-            "required": true,
-            "source": "patients.name"
-          },
-          {
-            "name": "medical_history",
-            "type": "string",
-            "required": true,
-            "source": "patients.medical_history"
-          },
-          {
-            "name": "contact_info",
-            "type": "string",
-            "required": true,
-            "source": "patients.contact_info"
-          }
-        ],
-        "response_fields": [],
-        "auth_required": true
-      },
-      {
-        "path": "/billing",
-        "method": "GET",
-        "summary": "Get all bills",
-        "roles_allowed": [
-          "Admin",
-          "Doctor"
-        ],
-        "request_fields": [],
-        "response_fields": [
-          {
-            "name": "id",
-            "type": "integer",
-            "required": true,
-            "source": "bills.id"
-          },
-          {
-            "name": "amount",
+            "name": "price",
             "type": "float",
             "required": true,
-            "source": "bills.amount"
-          },
-          {
-            "name": "patient_id",
-            "type": "integer",
-            "required": true,
-            "source": "bills.patient_id"
-          },
-          {
-            "name": "appointment_id",
-            "type": "integer",
-            "required": true,
-            "source": "bills.appointment_id"
+            "source": "table.price"
           }
         ],
-        "auth_required": true
+        "auth_required": false
       },
       {
-        "path": "/billing",
+        "path": "/admin/login",
         "method": "POST",
-        "summary": "Create a new bill",
+        "summary": "Login as admin",
         "roles_allowed": [
-          "Admin",
-          "Doctor"
-        ],
-        "request_fields": [
-          {
-            "name": "amount",
-            "type": "float",
-            "required": true,
-            "source": "bills.amount"
-          },
-          {
-            "name": "patient_id",
-            "type": "integer",
-            "required": true,
-            "source": "bills.patient_id"
-          },
-          {
-            "name": "appointment_id",
-            "type": "integer",
-            "required": true,
-            "source": "bills.appointment_id"
-          }
-        ],
-        "response_fields": [
-          {
-            "name": "id",
-            "type": "integer",
-            "required": true,
-            "source": "bills.id"
-          }
-        ],
-        "auth_required": true
-      },
-      {
-        "path": "/billing/{id}",
-        "method": "PUT",
-        "summary": "Update a bill",
-        "roles_allowed": [
-          "Admin",
-          "Doctor"
-        ],
-        "request_fields": [
-          {
-            "name": "amount",
-            "type": "float",
-            "required": true,
-            "source": "bills.amount"
-          },
-          {
-            "name": "patient_id",
-            "type": "integer",
-            "required": true,
-            "source": "bills.patient_id"
-          },
-          {
-            "name": "appointment_id",
-            "type": "integer",
-            "required": true,
-            "source": "bills.appointment_id"
-          }
-        ],
-        "response_fields": [],
-        "auth_required": true
-      },
-      {
-        "path": "/billing/{id}",
-        "method": "DELETE",
-        "summary": "Delete a bill",
-        "roles_allowed": [
-          "Admin",
-          "Doctor"
-        ],
-        "request_fields": [],
-        "response_fields": [],
-        "auth_required": true
-      },
-      {
-        "path": "/login",
-        "method": "POST",
-        "summary": "Login endpoint",
-        "roles_allowed": [
-          "Admin",
-          "Doctor",
-          "Patient"
+          "admin"
         ],
         "request_fields": [
           {
             "name": "username",
             "type": "string",
             "required": true,
-            "source": "users.username"
+            "source": "body"
           },
           {
             "name": "password",
             "type": "string",
             "required": true,
-            "source": "users.password"
+            "source": "body"
           }
         ],
         "response_fields": [
@@ -938,78 +754,89 @@
             "name": "token",
             "type": "string",
             "required": true,
-            "source": "users.token"
+            "source": "table.token"
           }
         ],
-        "auth_required": false
+        "auth_required": true
       },
       {
-        "path": "/register",
-        "method": "POST",
-        "summary": "Registration endpoint",
+        "path": "/admin/offers",
+        "method": "GET",
+        "summary": "Get offers managed by admin",
         "roles_allowed": [
-          "Admin",
-          "Doctor",
-          "Patient"
+          "admin"
         ],
         "request_fields": [
           {
-            "name": "username",
-            "type": "string",
-            "required": true,
-            "source": "users.username"
+            "name": "limit",
+            "type": "integer",
+            "required": false,
+            "source": "query"
           },
           {
-            "name": "password",
-            "type": "string",
-            "required": true,
-            "source": "users.password"
-          },
-          {
-            "name": "role",
-            "type": "string",
-            "required": true,
-            "source": "users.role"
+            "name": "offset",
+            "type": "integer",
+            "required": false,
+            "source": "query"
           }
         ],
         "response_fields": [
           {
-            "name": "token",
-            "type": "string",
+            "name": "id",
+            "type": "integer",
             "required": true,
-            "source": "users.token"
+            "source": "table.id"
+          },
+          {
+            "name": "discount",
+            "type": "float",
+            "required": true,
+            "source": "table.discount"
+          },
+          {
+            "name": "expiration",
+            "type": "datetime",
+            "required": true,
+            "source": "table.expiration"
           }
         ],
-        "auth_required": false
+        "auth_required": true
       }
     ]
   },
   "ui_schema": {
     "pages": [
       {
-        "name": "LoginPage",
-        "path": "/login",
+        "name": "Fresh of the Day",
+        "path": "/fresh-of-the-day",
         "roles_allowed": [],
         "components": [],
         "layout": "default"
       },
       {
-        "name": "AppointmentPage",
-        "path": "/appointments",
+        "name": "Cart",
+        "path": "/cart",
         "roles_allowed": [],
         "components": [],
         "layout": "default"
       },
       {
-        "name": "PatientProfilePage",
-        "path": "/patient-profile",
+        "name": "Offers",
+        "path": "/offers",
         "roles_allowed": [],
         "components": [],
         "layout": "default"
       },
       {
-        "name": "BillingPage",
-        "path": "/billing",
+        "name": "Menu",
+        "path": "/menu",
+        "roles_allowed": [],
+        "components": [],
+        "layout": "default"
+      },
+      {
+        "name": "Admin Dashboard",
+        "path": "/admin",
         "roles_allowed": [],
         "components": [],
         "layout": "default"
@@ -1018,101 +845,86 @@
     "nav_items": [],
     "entities": [
       {
-        "name": "Doctor",
-        "description": "Medical professional",
+        "name": "Fresh of the Day",
+        "description": "daily coffee selection",
+        "attributes": [
+          "price",
+          "description"
+        ]
+      },
+      {
+        "name": "Cart",
+        "description": "user's shopping cart",
+        "attributes": [
+          "items",
+          "total"
+        ]
+      },
+      {
+        "name": "Offers",
+        "description": "discounts and promotions",
+        "attributes": [
+          "discount",
+          "expiration"
+        ]
+      },
+      {
+        "name": "Menu",
+        "description": "list of available coffee products",
         "attributes": [
           "name",
-          "specialty",
-          "schedule"
+          "price"
         ]
       },
       {
-        "name": "Patient",
-        "description": "Individual receiving medical care",
+        "name": "Admin",
+        "description": "application administrator",
         "attributes": [
-          "name",
-          "medical history",
-          "contact info"
-        ]
-      },
-      {
-        "name": "Appointment",
-        "description": "Scheduled meeting between doctor and patient",
-        "attributes": [
-          "date",
-          "time",
-          "doctor",
-          "patient"
-        ]
-      },
-      {
-        "name": "Bill",
-        "description": "Payment request for medical services",
-        "attributes": [
-          "amount",
-          "patient",
-          "appointment"
+          "username",
+          "password"
         ]
       }
     ],
     "relationships": [
       {
-        "name": "Doctor-Patient",
-        "description": "A doctor can have many patients",
-        "from_entity": "Doctor",
-        "to_entity": "Patient",
+        "name": "contains",
+        "description": "a cart contains items",
+        "from_entity": "Cart",
+        "to_entity": "Fresh of the Day",
         "type": "one_to_many"
       },
       {
-        "name": "Patient-Appointment",
-        "description": "A patient can have many appointments",
-        "from_entity": "Patient",
-        "to_entity": "Appointment",
-        "type": "one_to_many"
+        "name": "applies",
+        "description": "an offer applies to a menu item",
+        "from_entity": "Offers",
+        "to_entity": "Menu",
+        "type": "many_to_many"
       },
       {
-        "name": "Doctor-Appointment",
-        "description": "A doctor can have many appointments",
-        "from_entity": "Doctor",
-        "to_entity": "Appointment",
-        "type": "one_to_many"
-      },
-      {
-        "name": "Appointment-Bill",
-        "description": "An appointment can have one bill",
-        "from_entity": "Appointment",
-        "to_entity": "Bill",
+        "name": "managed_by",
+        "description": "an admin manages offers and user data",
+        "from_entity": "Admin",
+        "to_entity": "Offers",
         "type": "one_to_one"
       }
     ],
     "flows": [
       {
-        "name": "Patient Scheduling Flow",
+        "name": "User Flow",
         "steps": [
-          "User opens LoginPage",
-          "User logs in as Patient",
-          "User navigates to AppointmentPage",
-          "User selects a doctor and schedule",
-          "User creates a new appointment"
+          "User opens Menu page",
+          "User selects item to add to cart",
+          "User opens Cart page",
+          "User applies offer",
+          "User views total"
         ]
       },
       {
-        "name": "Doctor Viewing Flow",
+        "name": "Admin Flow",
         "steps": [
-          "User opens LoginPage",
-          "User logs in as Doctor",
-          "User navigates to AppointmentPage",
-          "User views their scheduled appointments"
-        ]
-      },
-      {
-        "name": "Admin Billing Flow",
-        "steps": [
-          "User opens LoginPage",
-          "User logs in as Admin",
-          "User navigates to BillingPage",
-          "User views all bills",
-          "User updates a bill"
+          "Admin logs in",
+          "Admin views offers",
+          "Admin manages offers"
         ]
       }
     ]
@@ -1125,34 +937,7 @@
         "name": "Admin",
         "permissions": [
           {
-            "resource": "appointments",
-            "actions": [
-              "create",
-              "read",
-              "update",
-              "delete"
-            ]
-          },
-          {
-            "resource": "patients",
-            "actions": [
-              "create",
-              "read",
-              "update",
-              "delete"
-            ]
-          },
-          {
-            "resource": "bills",
-            "actions": [
-              "create",
-              "read",
-              "update",
-              "delete"
-            ]
-          },
-          {
-            "resource": "doctors",
+            "resource": "*",
             "actions": [
               "create",
               "read",
@@ -1162,64 +947,24 @@
           }
         ],
         "can_access_pages": [
-          "/login",
-          "/appointments",
-          "/patient-profile",
-          "/billing"
+          "/admin"
         ]
       },
       {
-        "name": "Doctor",
+        "name": "User",
         "permissions": [
           {
-            "resource": "appointments",
-            "actions": [
-              "read",
-              "update"
-            ]
-          },
-          {
-            "resource": "patients",
-            "actions": [
-              "read"
-            ]
-          },
-          {
-            "resource": "bills",
+            "resource": "*",
             "actions": [
               "read"
             ]
           }
         ],
         "can_access_pages": [
-          "/login",
-          "/appointments",
-          "/patient-profile"
-        ]
-      },
-      {
-        "name": "Patient",
-        "permissions": [
-          {
-            "resource": "appointments",
-            "actions": [
-              "create",
-              "read",
-              "update"
-            ]
-          },
-          {
-            "resource": "patient-profile",
-            "actions": [
-              "read",
-              "update"
-            ]
-          }
-        ],
-        "can_access_pages": [
-          "/login",
-          "/appointments",
-          "/patient-profile"
+          "/fresh-of-the-day",
+          "/cart",
+          "/offers",
+          "/menu"
         ]
       }
     ],

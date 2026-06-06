@@ -1,29 +1,36 @@
 {
   "pages": [
     {
-      "name": "LoginPage",
-      "path": "/login",
+      "name": "Fresh of the Day",
+      "path": "/fresh-of-the-day",
       "roles_allowed": [],
       "components": [],
       "layout": "default"
     },
     {
-      "name": "AppointmentPage",
-      "path": "/appointments",
+      "name": "Cart",
+      "path": "/cart",
       "roles_allowed": [],
       "components": [],
       "layout": "default"
     },
     {
-      "name": "PatientProfilePage",
-      "path": "/patient-profile",
+      "name": "Offers",
+      "path": "/offers",
       "roles_allowed": [],
       "components": [],
       "layout": "default"
     },
     {
-      "name": "BillingPage",
-      "path": "/billing",
+      "name": "Menu",
+      "path": "/menu",
+      "roles_allowed": [],
+      "components": [],
+      "layout": "default"
+    },
+    {
+      "name": "Admin Dashboard",
+      "path": "/admin",
       "roles_allowed": [],
       "components": [],
       "layout": "default"
@@ -32,101 +39,86 @@
   "nav_items": [],
   "entities": [
     {
-      "name": "Doctor",
-      "description": "Medical professional",
+      "name": "Fresh of the Day",
+      "description": "daily coffee selection",
+      "attributes": [
+        "price",
+        "description"
+      ]
+    },
+    {
+      "name": "Cart",
+      "description": "user's shopping cart",
+      "attributes": [
+        "items",
+        "total"
+      ]
+    },
+    {
+      "name": "Offers",
+      "description": "discounts and promotions",
+      "attributes": [
+        "discount",
+        "expiration"
+      ]
+    },
+    {
+      "name": "Menu",
+      "description": "list of available coffee products",
       "attributes": [
         "name",
-        "specialty",
-        "schedule"
+        "price"
       ]
     },
     {
-      "name": "Patient",
-      "description": "Individual receiving medical care",
+      "name": "Admin",
+      "description": "application administrator",
       "attributes": [
-        "name",
-        "medical history",
-        "contact info"
-      ]
-    },
-    {
-      "name": "Appointment",
-      "description": "Scheduled meeting between doctor and patient",
-      "attributes": [
-        "date",
-        "time",
-        "doctor",
-        "patient"
-      ]
-    },
-    {
-      "name": "Bill",
-      "description": "Payment request for medical services",
-      "attributes": [
-        "amount",
-        "patient",
-        "appointment"
+        "username",
+        "password"
       ]
     }
   ],
   "relationships": [
     {
-      "name": "Doctor-Patient",
-      "description": "A doctor can have many patients",
-      "from_entity": "Doctor",
-      "to_entity": "Patient",
+      "name": "contains",
+      "description": "a cart contains items",
+      "from_entity": "Cart",
+      "to_entity": "Fresh of the Day",
       "type": "one_to_many"
     },
     {
-      "name": "Patient-Appointment",
-      "description": "A patient can have many appointments",
-      "from_entity": "Patient",
-      "to_entity": "Appointment",
-      "type": "one_to_many"
+      "name": "applies",
+      "description": "an offer applies to a menu item",
+      "from_entity": "Offers",
+      "to_entity": "Menu",
+      "type": "many_to_many"
     },
     {
-      "name": "Doctor-Appointment",
-      "description": "A doctor can have many appointments",
-      "from_entity": "Doctor",
-      "to_entity": "Appointment",
-      "type": "one_to_many"
-    },
-    {
-      "name": "Appointment-Bill",
-      "description": "An appointment can have one bill",
-      "from_entity": "Appointment",
-      "to_entity": "Bill",
+      "name": "managed_by",
+      "description": "an admin manages offers and user data",
+      "from_entity": "Admin",
+      "to_entity": "Offers",
       "type": "one_to_one"
     }
   ],
   "flows": [
     {
-      "name": "Patient Scheduling Flow",
+      "name": "User Flow",
       "steps": [
-        "User opens LoginPage",
-        "User logs in as Patient",
-        "User navigates to AppointmentPage",
-        "User selects a doctor and schedule",
-        "User creates a new appointment"
+        "User opens Menu page",
+        "User selects item to add to cart",
+        "User opens Cart page",
+        "User applies offer",
+        "User views total"
       ]
     },
     {
-      "name": "Doctor Viewing Flow",
+      "name": "Admin Flow",
       "steps": [
-        "User opens LoginPage",
-        "User logs in as Doctor",
-        "User navigates to AppointmentPage",
-        "User views their scheduled appointments"
-      ]
-    },
-    {
-      "name": "Admin Billing Flow",
-      "steps": [
-        "User opens LoginPage",
-        "User logs in as Admin",
-        "User navigates to BillingPage",
-        "User views all bills",
-        "User updates a bill"
+        "Admin logs in",
+        "Admin views offers",
+        "Admin manages offers"
       ]
     }
   ]

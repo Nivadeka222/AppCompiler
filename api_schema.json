@@ -2,67 +2,24 @@
   "base_path": "/api/v1",
   "endpoints": [
     {
-      "path": "/products",
+      "path": "/fresh-of-the-day",
       "method": "GET",
-      "summary": "Get all products",
+      "summary": "Get daily coffee selection",
       "roles_allowed": [
-        "Admin",
-        "Customer"
-      ],
-      "request_fields": [],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "products.id"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "source": "products.name"
-        },
-        {
-          "name": "price",
-          "type": "float",
-          "required": true,
-          "source": "products.price"
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "required": true,
-          "source": "products.description"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/products",
-      "method": "POST",
-      "summary": "Create a new product",
-      "roles_allowed": [
-        "Admin"
+        "user"
       ],
       "request_fields": [
         {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "source": "products.name"
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "source": "query"
         },
         {
-          "name": "price",
-          "type": "float",
-          "required": true,
-          "source": "products.price"
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "required": true,
-          "source": "products.description"
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "source": "query"
         }
       ],
       "response_fields": [
@@ -70,206 +27,79 @@
           "name": "id",
           "type": "integer",
           "required": true,
-          "source": "products.id"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/products/{id}",
-      "method": "GET",
-      "summary": "Get a product by id",
-      "roles_allowed": [
-        "Admin",
-        "Customer"
-      ],
-      "request_fields": [],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "products.id"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "source": "products.name"
+          "source": "table.id"
         },
         {
           "name": "price",
           "type": "float",
           "required": true,
-          "source": "products.price"
+          "source": "table.price"
         },
         {
           "name": "description",
-          "type": "string",
+          "type": "text",
           "required": true,
-          "source": "products.description"
+          "source": "table.description"
         }
       ],
-      "auth_required": true
-    },
-    {
-      "path": "/products/{id}",
-      "method": "PUT",
-      "summary": "Update a product",
-      "roles_allowed": [
-        "Admin"
-      ],
-      "request_fields": [
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "source": "products.name"
-        },
-        {
-          "name": "price",
-          "type": "float",
-          "required": true,
-          "source": "products.price"
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "required": true,
-          "source": "products.description"
-        }
-      ],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "products.id"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/products/{id}",
-      "method": "DELETE",
-      "summary": "Delete a product",
-      "roles_allowed": [
-        "Admin"
-      ],
-      "request_fields": [],
-      "response_fields": [],
-      "auth_required": true
+      "auth_required": false
     },
     {
       "path": "/cart",
       "method": "GET",
-      "summary": "Get cart contents",
+      "summary": "Get user's shopping cart",
       "roles_allowed": [
-        "Customer"
-      ],
-      "request_fields": [],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "cart.id"
-        },
-        {
-          "name": "products",
-          "type": "array",
-          "required": true,
-          "source": "cart.products"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/cart",
-      "method": "POST",
-      "summary": "Add product to cart",
-      "roles_allowed": [
-        "Customer"
+        "user"
       ],
       "request_fields": [
         {
-          "name": "product_id",
+          "name": "limit",
           "type": "integer",
-          "required": true,
-          "source": "products.id"
-        }
-      ],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "cart.id"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/cart/{id}",
-      "method": "DELETE",
-      "summary": "Remove product from cart",
-      "roles_allowed": [
-        "Customer"
-      ],
-      "request_fields": [],
-      "response_fields": [],
-      "auth_required": true
-    },
-    {
-      "path": "/orders",
-      "method": "GET",
-      "summary": "Get all orders",
-      "roles_allowed": [
-        "Admin",
-        "Customer"
-      ],
-      "request_fields": [],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "orders.id"
+          "required": false,
+          "source": "query"
         },
         {
-          "name": "products",
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "source": "query"
+        }
+      ],
+      "response_fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "source": "table.id"
+        },
+        {
+          "name": "items",
           "type": "array",
           "required": true,
-          "source": "orders.products"
+          "source": "table.items"
         },
         {
           "name": "total",
           "type": "float",
           "required": true,
-          "source": "orders.total"
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "required": true,
-          "source": "orders.status"
+          "source": "table.total"
         }
       ],
-      "auth_required": true
+      "auth_required": false
     },
     {
-      "path": "/orders",
+      "path": "/cart",
       "method": "POST",
-      "summary": "Create a new order",
+      "summary": "Add item to cart",
       "roles_allowed": [
-        "Customer"
+        "user"
       ],
       "request_fields": [
         {
-          "name": "products",
-          "type": "array",
+          "name": "item_id",
+          "type": "integer",
           "required": true,
-          "source": "orders.products"
+          "source": "body"
         }
       ],
       "response_fields": [
@@ -277,61 +107,42 @@
           "name": "id",
           "type": "integer",
           "required": true,
-          "source": "orders.id"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/orders/{id}",
-      "method": "GET",
-      "summary": "Get an order by id",
-      "roles_allowed": [
-        "Admin",
-        "Customer"
-      ],
-      "request_fields": [],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "orders.id"
+          "source": "table.id"
         },
         {
-          "name": "products",
+          "name": "items",
           "type": "array",
           "required": true,
-          "source": "orders.products"
+          "source": "table.items"
         },
         {
           "name": "total",
           "type": "float",
           "required": true,
-          "source": "orders.total"
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "required": true,
-          "source": "orders.status"
+          "source": "table.total"
         }
       ],
-      "auth_required": true
+      "auth_required": false
     },
     {
-      "path": "/orders/{id}",
-      "method": "PUT",
-      "summary": "Update an order",
+      "path": "/offers",
+      "method": "GET",
+      "summary": "Get available discounts",
       "roles_allowed": [
-        "Admin"
+        "user"
       ],
       "request_fields": [
         {
-          "name": "status",
-          "type": "string",
-          "required": true,
-          "source": "orders.status"
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "source": "query"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "source": "query"
         }
       ],
       "response_fields": [
@@ -339,224 +150,85 @@
           "name": "id",
           "type": "integer",
           "required": true,
-          "source": "orders.id"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/orders/{id}",
-      "method": "DELETE",
-      "summary": "Delete an order",
-      "roles_allowed": [
-        "Admin"
-      ],
-      "request_fields": [],
-      "response_fields": [],
-      "auth_required": true
-    },
-    {
-      "path": "/payment",
-      "method": "POST",
-      "summary": "Process a payment",
-      "roles_allowed": [
-        "Customer"
-      ],
-      "request_fields": [
-        {
-          "name": "order_id",
-          "type": "integer",
-          "required": true,
-          "source": "orders.id"
+          "source": "table.id"
         },
         {
-          "name": "payment_method",
-          "type": "string",
-          "required": true,
-          "source": "payment.method"
-        },
-        {
-          "name": "amount",
+          "name": "discount",
           "type": "float",
           "required": true,
-          "source": "payment.amount"
-        }
-      ],
-      "response_fields": [
+          "source": "table.discount"
+        },
         {
-          "name": "id",
-          "type": "integer",
+          "name": "expiration",
+          "type": "datetime",
           "required": true,
-          "source": "payment.id"
+          "source": "table.expiration"
         }
       ],
-      "auth_required": true
+      "auth_required": false
     },
     {
-      "path": "/users",
+      "path": "/menu",
       "method": "GET",
-      "summary": "Get all users",
+      "summary": "Get list of available coffee products",
       "roles_allowed": [
-        "Admin"
+        "user"
       ],
-      "request_fields": [],
+      "request_fields": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "source": "query"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "source": "query"
+        }
+      ],
       "response_fields": [
         {
           "name": "id",
           "type": "integer",
           "required": true,
-          "source": "users.id"
+          "source": "table.id"
         },
         {
           "name": "name",
-          "type": "string",
+          "type": "text",
           "required": true,
-          "source": "users.name"
+          "source": "table.name"
         },
         {
-          "name": "email",
-          "type": "string",
+          "name": "price",
+          "type": "float",
           "required": true,
-          "source": "users.email"
+          "source": "table.price"
         }
       ],
-      "auth_required": true
+      "auth_required": false
     },
     {
-      "path": "/users",
+      "path": "/admin/login",
       "method": "POST",
-      "summary": "Create a new user",
+      "summary": "Login as admin",
       "roles_allowed": [
-        "Admin"
+        "admin"
       ],
       "request_fields": [
         {
-          "name": "name",
+          "name": "username",
           "type": "string",
           "required": true,
-          "source": "users.name"
-        },
-        {
-          "name": "email",
-          "type": "string",
-          "required": true,
-          "source": "users.email"
+          "source": "body"
         },
         {
           "name": "password",
           "type": "string",
           "required": true,
-          "source": "users.password"
-        }
-      ],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "users.id"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/users/{id}",
-      "method": "GET",
-      "summary": "Get a user by id",
-      "roles_allowed": [
-        "Admin"
-      ],
-      "request_fields": [],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "users.id"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "source": "users.name"
-        },
-        {
-          "name": "email",
-          "type": "string",
-          "required": true,
-          "source": "users.email"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/users/{id}",
-      "method": "PUT",
-      "summary": "Update a user",
-      "roles_allowed": [
-        "Admin"
-      ],
-      "request_fields": [
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "source": "users.name"
-        },
-        {
-          "name": "email",
-          "type": "string",
-          "required": true,
-          "source": "users.email"
-        },
-        {
-          "name": "password",
-          "type": "string",
-          "required": true,
-          "source": "users.password"
-        }
-      ],
-      "response_fields": [
-        {
-          "name": "id",
-          "type": "integer",
-          "required": true,
-          "source": "users.id"
-        }
-      ],
-      "auth_required": true
-    },
-    {
-      "path": "/users/{id}",
-      "method": "DELETE",
-      "summary": "Delete a user",
-      "roles_allowed": [
-        "Admin"
-      ],
-      "request_fields": [],
-      "response_fields": [],
-      "auth_required": true
-    },
-    {
-      "path": "/login",
-      "method": "POST",
-      "summary": "Login to the platform",
-      "roles_allowed": [
-        "Admin",
-        "Customer"
-      ],
-      "request_fields": [
-        {
-          "name": "email",
-          "type": "string",
-          "required": true,
-          "source": "users.email"
-        },
-        {
-          "name": "password",
-          "type": "string",
-          "required": true,
-          "source": "users.password"
+          "source": "body"
         }
       ],
       "response_fields": [
@@ -564,37 +236,30 @@
           "name": "token",
           "type": "string",
           "required": true,
-          "source": "auth.token"
+          "source": "table.token"
         }
       ],
-      "auth_required": false
+      "auth_required": true
     },
     {
-      "path": "/register",
-      "method": "POST",
-      "summary": "Create an account",
+      "path": "/admin/offers",
+      "method": "GET",
+      "summary": "Get offers managed by admin",
       "roles_allowed": [
-        "Admin",
-        "Customer"
+        "admin"
       ],
       "request_fields": [
         {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "source": "users.name"
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "source": "query"
         },
         {
-          "name": "email",
-          "type": "string",
-          "required": true,
-          "source": "users.email"
-        },
-        {
-          "name": "password",
-          "type": "string",
-          "required": true,
-          "source": "users.password"
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "source": "query"
         }
       ],
       "response_fields": [
@@ -602,10 +267,22 @@
           "name": "id",
           "type": "integer",
           "required": true,
-          "source": "users.id"
+          "source": "table.id"
+        },
+        {
+          "name": "discount",
+          "type": "float",
+          "required": true,
+          "source": "table.discount"
+        },
+        {
+          "name": "expiration",
+          "type": "datetime",
+          "required": true,
+          "source": "table.expiration"
         }
       ],
-      "auth_required": false
+      "auth_required": true
     }
   ]
 }
